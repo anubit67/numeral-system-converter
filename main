@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace binary_to_decimal
 {
-    class Decimall
-    {
-        
-    }
     class Program
     {
         static void Main(string[] args)
