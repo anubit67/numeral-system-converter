@@ -1,0 +1,125 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace binary_to_decimal
+{
+    class Binaris
+    {
+        public static int btc(string binaris)
+        {
+            int x = 1;
+            int dec_num = 0;
+            int dec_sum = 0;
+
+            byte binaris_hossz = (byte)binaris.Length;
+            byte y = binaris_hossz;
+            int[,] binaris_tomb = new int[binaris_hossz, 2];
+
+            for (byte j = 0; j <= (byte)(binaris_hossz - 1); j++) //binarisok
+            {
+                binaris_tomb[j, 0] = int.Parse(binaris[--y].ToString());
+                //Console.WriteLine(binaris_tomb[j, 0]);
+                for (byte k = 0; k < 1; k++) //hatvanyok
+                {
+                    binaris_tomb[j, 1] = x;
+                    x *= 2;
+                    //Console.WriteLine(binaris_tomb[j, 1]);
+                }
+            }
+
+            for (byte j = 0; j <= (byte)(binaris_hossz - 1); j++)
+            {
+                dec_num = binaris_tomb[j, 0] * binaris_tomb[j, 1];
+                dec_sum += dec_num;
+            }
+            return dec_sum;
+        }
+    }
+
+    class Decimalis
+    {
+        public static string dtb(string decimalis)
+        {
+            int ln_bin_oszto = 1;
+            byte bin = 0;
+            int maradek = int.Parse(decimalis);
+
+            for (int z = 1; z <= int.Parse(decimalis); z *= 2)
+            {
+                if (int.Parse(decimalis) / z >= 1)
+                {
+                    ln_bin_oszto = z;
+                    bin += 1;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            //binaris osztok
+            int[] bin_array = new int[bin];
+            byte bin2 = bin;
+
+            for (byte z = 0; z < bin; z++)
+            {
+                bin_array[--bin2] = ln_bin_oszto;
+                ln_bin_oszto /= 2;
+                //Console.WriteLine("{0}\n", bin_array[bin2]);
+            }
+            //binaris szamok
+            byte bin3 = bin;
+            byte[] bin_array2 = new byte[bin];
+            StringBuilder eredmeny = new StringBuilder(30);
+            string eredmeny2;
+
+            for (byte z = 0; z < bin; z++)
+            {
+                if (maradek / bin_array[--bin3] >= 1)
+                {
+                    //bin_array2[bin3] = 1;
+                    maradek -= bin_array[bin3];
+                    //eredmeny.Append(bin_array2[bin3]);
+                    eredmeny.Append(1);
+                }
+                else
+                {
+                    eredmeny.Append(0);
+                }
+            }
+
+            eredmeny2 = eredmeny.ToString();
+            return eredmeny2;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Welcome to my little converter program.\nPls choose a mode:\n0 - Binary to Decimal\n1 - Decimal to Binary");
+
+            switch (Console.ReadKey(true).KeyChar)
+            {
+                case '0':
+                    int eredmeny;
+                    Console.WriteLine("Pls enter a binary number.");
+                    string binaris = Console.ReadLine();
+                    eredmeny = Binaris.btc(binaris);
+                    Console.WriteLine("Decimal number: {0}", eredmeny);
+                    Console.ReadKey();
+                    break;
+                case '1':
+                    string eredmeny2;
+                    Console.WriteLine("Pls enter a decimal number.");
+                    string decimalis = Console.ReadLine();
+                    eredmeny2 = Decimalis.dtb(decimalis);
+                    Console.Write("Binary number: {0}", eredmeny2);
+                    Console.ReadKey();
+                    break;
+            }
+        }
+    }
+}
